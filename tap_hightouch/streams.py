@@ -16,7 +16,10 @@ class SyncStream(HightouchStream):
 
     @property
     def partitions(self) -> Optional[List[dict]]:
-        return [{"sync_id": s} for s in self.config.get("sync_id_list", [])]
+        sync_ids = self.config.get("sync_id_list")
+        if not sync_ids:
+            raise ValueError("At least one sync must be specified.")
+        return [{"sync_id": s} for s in sync_ids]
 
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType),

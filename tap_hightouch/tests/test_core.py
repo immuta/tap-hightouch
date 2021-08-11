@@ -1,14 +1,14 @@
 """Tests standard tap features using the built-in SDK tests library."""
 
-import datetime
+import os
 
 from singer_sdk.testing import get_standard_tap_tests
 
 from tap_hightouch.tap import TapHightouch
 
 SAMPLE_CONFIG = {
-    "start_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
-    # TODO: Initialize minimal tap config
+    "api_key": os.environ["TAP_HIGHTOUCH_API_KEY"],
+    "sync_id_list": [12345]
 }
 
 
@@ -21,6 +21,3 @@ def test_standard_tap_tests():
     )
     for test in tests:
         test()
-
-
-# TODO: Create additional tests as appropriate for your tap.
