@@ -11,12 +11,12 @@ from tap_hightouch.client import HightouchStream
 class SyncStream(HightouchStream):
     """Define custom stream."""
     name = "sync"
-    path = "/sync/21265"
+    path = "/sync/{sync_id}"
     primary_keys = ["id"]
 
     @property
-    def sync_id_list(self):
-        return self.config.get("sync_id_list", [])
+    def partitions(self) -> Optional[List[dict]]:
+        return [{"sync_id": s} for s in self.config.get("sync_id_list", [])]
 
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType),
@@ -38,14 +38,3 @@ class SyncStream(HightouchStream):
             th.Property("sync_run_error", th.StringType),
         ))
     ).to_dict()
-
-    def get_next_page_token(self, response, previous_token):
-        if previous_token is None:
-            previous_token = self.sync_id_list[0]
-        try:
-            current_index = self.sync_id_list.index(previous_token)
-            next_page_token = self.sync_id_list[current_index + 1]
-            return next_page_token
-        except IndexError as e:
-            self.logger.info("Reached end of sync list.")
-            return None
