@@ -6,17 +6,21 @@ Built with the Meltano [SDK](https://gitlab.com/meltano/sdk) for Singer Taps.
 
 ## Installation
 
-- [ ] `Developer TODO:` Update the below as needed to correctly describe the install procedure. For instance, if you do not have a PyPi repo, or if you want users to directly install from your git repo, you can modify this step as appropriate.
+To install this tap, run:
 
 ```bash
-pipx install tap-hightouch
+pip install git+https://github.com/immuta/tap-hightouch.git
 ```
 
 ## Configuration
 
 ### Accepted Config Options
 
-- [ ] `Developer TODO:` Provide a list of config options accepted by the tap.
+Config options include:
+
+- api_key: Hightouch API key
+- sync_id_list: A list of integer values for the syncs to export data from
+
 
 A full list of supported settings and capabilities for this
 tap is available by running:
@@ -24,10 +28,6 @@ tap is available by running:
 ```bash
 tap-hightouch --about
 ```
-
-### Source Authentication and Authorization
-
-- [ ] `Developer TODO:` If your tap requires special access on the source system, or any special authentication requirements, provide those here.
 
 ## Usage
 
@@ -43,12 +43,13 @@ tap-hightouch --config CONFIG --discover > ./catalog.json
 
 ## Developer Resources
 
-- [ ] `Developer TODO:` As a first step, scan the entire project for the text "`TODO:`" and complete any recommended steps, deleting the "TODO" references once completed.
+Below are instructions for working on this package.
 
 ### Initialize your Development Environment
 
+First install the package using `poetry`. Refer to that package's installation instructions.
+
 ```bash
-pipx install poetry
 poetry install
 ```
 
@@ -65,33 +66,6 @@ You can also test the `tap-hightouch` CLI interface directly using `poetry run`:
 
 ```bash
 poetry run tap-hightouch --help
-```
-
-### Testing with [Meltano](https://www.meltano.com)
-
-_**Note:** This tap will work in any Singer environment and does not require Meltano.
-Examples here are for convenience and to streamline end-to-end orchestration scenarios._
-
-Your project comes with a custom `meltano.yml` project file already created. Open the `meltano.yml` and follow any _"TODO"_ items listed in
-the file.
-
-Next, install Meltano (if you haven't already) and any needed plugins:
-
-```bash
-# Install meltano
-pipx install meltano
-# Initialize meltano within this directory
-cd tap-hightouch
-meltano install
-```
-
-Now you can test and orchestrate using Meltano:
-
-```bash
-# Test invocation:
-meltano invoke tap-hightouch --version
-# OR run a test `elt` pipeline:
-meltano elt tap-hightouch target-jsonl
 ```
 
 ### SDK Dev Guide
