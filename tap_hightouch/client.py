@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
 
+from singer_sdk.authenticators import BearerTokenAuthenticator
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 
@@ -16,11 +17,9 @@ class HightouchStream(RESTStream):
     url_base = "https://api.hightouch.io/api/v2/rest"
 
     @property
-    def http_headers(self) -> dict:
-        """Return the http headers needed."""
-        headers = {
-            "Authorization": f"Bearer {self.config['api_key']}"
-        }
-        if "user_agent" in self.config:
-            headers["User-Agent"] = self.config.get("user_agent")
-        return headers
+    def authenticator(self) -> BearerTokenAuthenticator:
+        """Return a new authenticator object."""
+        return BearerTokenAuthenticator.create_for_stream(
+            self,
+            token=self.config.get("api_key")
+        )
